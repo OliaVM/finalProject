@@ -25,20 +25,34 @@
 					</div>
 					<div>
 			  <?php	
-				if (isset($_POST['go'])) {
-					if (isset($_POST['theme']) && isset($_POST['title']) && isset($_POST['message']) && isset($ourimage)) {
-						if(!empty($_POST['theme']) && !empty($_POST['title']) && !empty($_POST['message'])) {
+			  	if (isset($x)) { // выполняем исключение, если оно есть
+						echo "<h2>" . $x . "</h2>";
+				}
+				if (isset($x2)) { // выполняем исключение, если оно есть
+						echo "<h2>" . $x2 . "</h2>";
+				}
+
+			  	
+				$pathToConfig = __DIR__ . '/../config/app.php';
+				$oConfig = new Config($pathToConfig);
+				//$countOfNews = $oConfig->get('count_of_news');
+				$dbConfig = $oConfig->get('db');
+				$basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['password']);
+				//вывод информации из БД на экран
+				
+				$sql2 = "SELECT * FROM articles WHERE rubrika='Россия'"; 
+				//if (!empty($basa->query('SELECT * FROM articles'))) {
+				printTableBd($basa, $sql2);
+				//}
+				//if (isset($_POST['go'])) {
+					//if (isset($_POST['theme']) && isset($_POST['title']) && isset($_POST['message']) && isset($ourimage)) {
+						//if(!empty($_POST['theme']) && !empty($_POST['title']) && !empty($_POST['message'])) {
 							$sql2 = 'SELECT * FROM articles'; 
 							printTableBd($basa, $sql2);
-						}
-					}
-					if (isset($x)) { // выполняем исключение, если оно есть
-						echo $x;
-					}
-					if (isset($x2)) { // выполняем исключение, если оно есть
-						echo $x2;
-					}
-				}
+						//}
+					//}
+					
+				//}
 			
 			  ?>
 			
