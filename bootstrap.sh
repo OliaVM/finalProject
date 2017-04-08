@@ -2,10 +2,11 @@
 
 # Variables path
 PROJECT_NAME='myproject'
-DBUSER='vagrant'
-DBPASSWD='vagrant'
-DBNAME='myproject'
-DBDUMPSQL='/path/to/dump.sql'
+DBUSER='news'
+DBPASSWD='password'
+DBPASSWD_ROOT='vagrant'
+DBNAME='news'
+DBDUMPSQL='/var/www/html/dump/news.sql'
 php_config_file="/etc/php5/apache2/php.ini"
 
 # create project folder
@@ -45,9 +46,9 @@ echo "mysql-server mysql-server/root_password password ${DBPASSWD}" | debconf-se
 echo "mysql-server mysql-server/root_password_again password ${DBPASSWD}" | debconf-set-selections
 sudo apt-get -y install mysql-server-5.5 mysql-client
 
-mysql -uroot -p${DBPASSWD} -e "CREATE DATABASE ${DBNAME}"
-mysql -uroot -p${DBPASSWD} -e "grant all privileges on $DBNAME.* to '${DBUSER}'@'localhost' identified by '${DBPASSWD}'"
-mysql -uroot -p${DBPASSWD} ${DBNAME} < ${DBDUMPSQL}
+mysql -uroot -p${DBPASSWD_ROOT} -e "CREATE DATABASE ${DBNAME}"
+mysql -uroot -p${DBPASSWD_ROOT} -e "grant all privileges on $DBNAME.* to '${DBUSER}'@'localhost' identified by '${DBPASSWD}'"
+mysql -uroot -p${DBPASSWD_ROOT} ${DBNAME} < ${DBDUMPSQL}
 
 echo "--- Install PhpMyAdmin ---"
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
