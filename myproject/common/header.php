@@ -10,7 +10,16 @@ $basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['passwor
 //echo 'Соединение установлено.';}
 //else{
 //die('Ошибка подключения к серверу баз данных.');}
-
+//вывод информации из БД на страницы
+if (isset($rubric)) {
+	$sql2 = "SELECT * FROM articles WHERE rubrika='$rubric'"; 
+	$news = getNewsList($basa, $sql2);
+}
+//вывод информации из БД на главную страницу
+else {
+	$sql2 = "SELECT * FROM articles"; 
+	$news = getNewsList($basa, $sql2);
+}
 //Добавление картинки
 if(isset($_POST["go"])){
 	try {

@@ -1,4 +1,4 @@
-<?php foreach ($news_list as $row): ?>
+<?php foreach ($news as $row): ?>
 	<br> 
 	<p><h2><?php echo $row['data']; ?></h2></p>
 	<p><h2><?php echo $row['rubrika']; ?></h2></p>
