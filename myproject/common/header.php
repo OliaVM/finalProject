@@ -10,16 +10,66 @@ $basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['passwor
 //echo 'Соединение установлено.';}
 //else{
 //die('Ошибка подключения к серверу баз данных.');}
+
 //вывод информации из БД на страницы
-if (isset($rubric)) {
-	$sql2 = "SELECT * FROM articles WHERE rubrika='$rubric'"; 
-	$news = getNewsList($basa, $sql2);
+if (isset($rubric)){
+	if (isset($_GET['page'])) { 
+			// число статей, выводимых на станице 
+			// Получаем из URL номер текущей страницу 
+			$num = 3; 
+			$page = $_GET['page']; 
+			// Определяем общее число статей в базе данных 
+			$query=$basa->query("SELECT id FROM articles WHERE rubrika='$rubric'");
+			$posts =$query->rowCount();
+			//echo $posts . "<br>";
+			
+			// Находим общее число страниц 
+			$total = ceil($posts / $num); 
+			//echo $total. "<br>"; 
+			// ceil - Округляет дробь в большую сторону, если
+			//на последней странице будет меньшее количество записей, чем на остальных.
+			//если не будет делиться без остатка
+
+			// Вычисляем c какого номера следует выводить статьи на данной странице 
+			$start = $page * $num - $num;  // нумерация начинается с 0
+			//echo $start . "=start";
+			// Выбираем количество статей $num начиная с номера $start 
+
+			$sql2 = "SELECT * FROM articles WHERE rubrika='$rubric' LIMIT $start, $num"; 
+			$news = getNewsList($basa, $sql2);
+	}
 }
 //вывод информации из БД на главную страницу
+else if (isset($_GET['page'])) { 
+	// число статей, выводимых на станице 
+	// Получаем из URL номер текущей страницу 
+	$num = 7; 
+	$page = $_GET['page']; 
+	// Определяем общее число статей в базе данных 
+	$query=$basa->query("SELECT id FROM articles");
+	$posts =$query->rowCount();
+	//echo $posts;
+
+	// Находим общее число страниц 
+	$total = ceil($posts / $num); 
+	//echo $total; //4
+	// ceil - Округляет дробь в большую сторону, если
+	//на последней странице будет меньшее количество записей, чем на остальных.
+	//если не будет делиться без остатка
+
+	// Вычисляем c какого номера следует выводить статьи на данной странице 
+	$start = $page * $num - $num;  // нумерация начинается с 0
+	//echo $start;
+	// Выбираем количество статей $num начиная с номера $start 
+	$sql2 = "SELECT * FROM articles LIMIT $start, $num";
+	//$sql2 = "SELECT * FROM articles"; 
+	$news = getNewsList($basa, $sql2);
+}
 else {
 	$sql2 = "SELECT * FROM articles"; 
 	$news = getNewsList($basa, $sql2);
 }
+
 //Добавление картинки
 if(isset($_POST["go"])){
 	try {
@@ -83,14 +133,14 @@ if(isset($_POST["go"])){
 	  <div class="row-fluid">
 	    <div class="span2" id="box4" id="menu"> 
 			<ul>
-				<li><a href="/index.php">Главная</a></li>
-				<li><a href="/news.php?theme=russia">Россия</a></li>
-				<li><a href="/news.php?theme=world">Мир</a></li>
-				<li><a href="/news.php?theme=economics">Экономика</a></li>
-				<li><a href="/news.php?theme=science">Наука</a></li>
-				<li><a href="/news.php?theme=culture">Культура</a></li>
-				<li><a href="/news.php?theme=sport">Спорт</a></li>
-				<li><a href="/news.php?theme=travel">Путешествия</a></li>
+				<li><a href="/index.php?page=1">Главная</a></li>
+				<li><a href="/news.php?theme=russia&page=1">Россия</a></li>
+				<li><a href="/news.php?theme=world&page=1">Мир</a></li>
+				<li><a href="/news.php?theme=economics&page=1">Экономика</a></li>
+				<li><a href="/news.php?theme=science&page=1">Наука</a></li>
+				<li><a href="/news.php?theme=culture&page=1">Культура</a></li>
+				<li><a href="/news.php?theme=sport&page=1">Спорт</a></li>
+				<li><a href="/news.php?theme=travel&page=1">Путешествия</a></li>
 			</ul>
 		</div>
 
