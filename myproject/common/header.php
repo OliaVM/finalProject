@@ -1,5 +1,22 @@
-<?php
+﻿<?php
 session_start();
+/*
+if (!empty($_SESSION['id']) and isset($_SESSION['id'])) {
+	echo "Вы успешно вошли в систему1: ".$_SESSION['login'] ."<br>";
+}
+*/
+/*
+if (!empty($_SESSION['id']) and isset($_SESSION['id'])) {
+	if (isset($_GET['exit'])) { // если пользователь нажал на "exit"
+		//session_start();
+		//unset($_SESSION['password']); // Очищаем сессию пароля
+		//unset($_SESSION['login']); // Очищаем сессию логина
+		//unset($_SESSION['id']); // Очищаем сессию id
+		unset($_SESSION['count']);
+		//echo "login ".$_SESSION['login']; 
+	}
+}
+*/
 require_once '/var/www/html/src/autoload.php';
 $pathToConfig = '/var/www/html/config/app.php';
 $oConfig = new Config($pathToConfig);
@@ -13,30 +30,30 @@ $basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['passwor
 //die('Ошибка подключения к серверу баз данных.');}
 
 //вывод информации из БД на страницы
-if (isset($rubric)){
+if (isset($rubric)) {
 	if (isset($_GET['page'])) { 
-			// число статей, выводимых на станице 
-			// Получаем из URL номер текущей страницу 
-			$num = 3; 
-			$page = $_GET['page']; 
-			// Определяем общее число статей в базе данных 
-			$query=$basa->query("SELECT id FROM articles WHERE rubrika='$rubric'");
-			$posts =$query->rowCount();
-			//echo $posts . "<br>";
+		// число статей, выводимых на станице 
+		// Получаем из URL номер текущей страницу 
+		$num = 3; 
+		$page = $_GET['page']; 
+		// Определяем общее число статей в базе данных 
+		$query=$basa->query("SELECT id FROM articles WHERE rubrika='$rubric'");
+		$posts =$query->rowCount();
+		//echo $posts . "<br>";
 			
-			// Находим общее число страниц 
-			$total = ceil($posts / $num); 
-			//echo $total. "<br>"; 
-			// ceil - Округляет дробь в большую сторону, если
-			//на последней странице будет меньшее количество записей, чем на остальных.
-			//если не будет делиться без остатка
+		// Находим общее число страниц 
+		$total = ceil($posts / $num); 
+		//echo $total. "<br>"; 
+		// ceil - Округляет дробь в большую сторону, если
+		//на последней странице будет меньшее количество записей, чем на остальных.
+		//если не будет делиться без остатка
 
-			// Вычисляем c какого номера следует выводить статьи на данной странице 
-			$start = $page * $num - $num;  // нумерация начинается с 0
-			//echo $start . "=start";
-			// Выбираем количество статей $num начиная с номера $start 
-			$sql2 = "SELECT * FROM articles WHERE rubrika='$rubric' LIMIT $start, $num"; 
-			$news = getNewsList($basa, $sql2);
+		// Вычисляем c какого номера следует выводить статьи на данной странице 
+		$start = $page * $num - $num;  // нумерация начинается с 0
+		//echo $start . "=start";
+		// Выбираем количество статей $num начиная с номера $start 
+		$sql2 = "SELECT * FROM articles WHERE rubrika='$rubric' LIMIT $start, $num"; 
+		$news = getNewsList($basa, $sql2);
 	}
 }
 //вывод информации из БД на главную страницу
@@ -70,8 +87,9 @@ else {
 	$news = getNewsList($basa, $sql2);
 }
 
-//Добавление картинки
+// Работа с базой данных
 if(isset($_POST["go"])){
+	//Добавление картинки
 	try {
 		if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
 			$uploaddir = 'images/'; 	// это папка, в которую будет загружаться картинка
@@ -88,7 +106,7 @@ if(isset($_POST["go"])){
 		$x = $ex1->getMessage();
 	}
 
-// Работа с базой данных
+	// Работа с базой данных: добавление даты,  текстовой информации
 	if (isset($_POST['theme']) && isset($_POST['title']) && isset($_POST['message']) && isset($ourimage)) {
 		try {
 			if(!empty($_POST['theme']) && !empty($_POST['title']) && !empty($_POST['message'])){
@@ -113,91 +131,102 @@ if(isset($_POST["go"])){
 	
 // авторизация
 // получаем информацию из БД и сравниваем с введенной полььзователем
-if (isset($_POST['submit'])) { // Отлавливаем нажатие кнопки "Отправить"
-	if (empty($_POST['login'])) { // Если поле логин пустое
-		echo '<script>alert("Поле логин не заполнено");</script>'; // То выводим сообщение об ошибке
-	}
-	elseif (empty($_POST['password'])) { // Если поле пароль пустое
-		echo '<script>alert("Поле пароль не заполнено");</script>'; // То выводим сообщение об ошибке
-	}
-	else { // Иначе если все поля заполненны
-		$login = $_POST['login']; // Записываем логин в переменную 
-		$password = $_POST['password']; // Записываем пароль в переменную           
-		
-		$result1 = $basa->query("SELECT id FROM users WHERE login = '$login' and password = '$password'"); 
-		// запрос к базе данных с проверкой пользователя
-		$row = $result1->fetch(PDO::FETCH_ASSOC); //Выбираем одну строку из результирующего набора и помещаем ее в ассоциативный массив
-				
-		if (!empty($row['id'])) {
+//Если форма авторизации отправлена...
+if (!empty($_REQUEST['password']) and !empty($_REQUEST['login'])) {
+	$login = $_REQUEST['login']; 
+	$password = $_REQUEST['password']; 
+
+	//Формируем и отсылаем SQL запрос: ВЫБРАТЬ ИЗ таблицы_users ГДЕ поле_логин = $login
+	$sql = 'SELECT * FROM users WHERE login="'.$login.'"';
+	$sth = $basa->query($sql);
+	//$sth = $basa->prepare($sql); 
+	//$sth->execute();
+	$rowUser = $sth->fetch(PDO::FETCH_ASSOC); //Преобразуем ответ из БД в строку массива
+	//var_dump($rowUser);
+	
+	//Если база данных вернула не пустой ответ - значит такой логин есть...
+	if (isset($rowUser['login'])) {
+		$salt = $rowUser['salt'];
+		//Посолим пароль из формы:
+		$saltedPassword = md5($password.$salt);
+			
+		//Если соленый пароль из базы данных совпадает с соленым паролем из формы...
+		if ($rowUser['password'] == $saltedPassword) {
+			//открываем сессию
+			//session_start(); 
+			//echo "secret page";
+			//echo "Вы успешно вошли в систему под именем1 ".$_SESSION['login'];
+			//Пишем в сессию информацию о том, что мы авторизовались:
+			$_SESSION['auth'] = true; 
+
+			// Пишем в сессию логин и id пользователя (их мы берем из $rowUser)
+			$_SESSION['id'] = $rowUser['id']; 
+			$_SESSION['login'] = $rowUser['login']; 
+			$_SESSION['password'] = $rowUser['password']; 
 			if (!isset($_SESSION['count'])) {
-					$_SESSION['count'] = 0;
+				$_SESSION['count'] = 0;
 			}	
 			else {
-					$_SESSION['count']++;  
+				$_SESSION['count']++;  
 			}
-			$_SESSION['password'] = $password; // Заносим в сессию  пароль
-			$_SESSION['login'] = $login; // Заносим в сессию  логин
-			$_SESSION['id'] = $row['id']; // Заносим в сессию  id
-			echo "Вы успешно вошли в систему2: ".$_SESSION['login']; // Выводим сообщение что пользователь авторизирован  
-			//echo "id " . $_SESSION['id']; 
-			//echo "POST['login] " . $_POST['login'];
-			echo "count= " . $_SESSION['count'];
-			$sessionPass = $_SESSION['password']; 
-			$sessionLog = $_SESSION['login']; 
-			$sessionId = $_SESSION['id'];
-			//Header("Location: protected.php");  // перенаправляем на protected.php
-		else {
-			echo '<script>alert("Неверные Логин или Пароль");</script>'; // Значит такой пользователь не существует или не верен пароль
 		}
-	}  
+		//Если соленый пароль из базы НЕ совпадает с соленым паролем из формы
+		//Выводим сообщение 'Неправильный логин или пароль'.
+		else {
+			echo "не верно введен логин или пароль";
+			/*
+			echo "<br>";
+			echo "saltedPassword= ".$saltedPassword;
+			echo "<br>";
+			echo "rowUser['password']=" . $rowUser['password'];
+			echo "<br>";
+			echo " md salt =" . md5($salt);
+			*/
+		}
+	} else {
+		echo "пользователь с таким именем не зарегистрирован";
+	}
 }
 
 // регистрация
 //Отправляем в базу данных информаию из формы 
-if (isset($_POST['submit2'])) {//Отлавливаем нажатие на кнопку отправить  
-		if (empty($_POST['login2'])) {  // Условие - если поле логин пустое
-			echo "<script>alert('Поле логин не заполнено');</script>"; // Выводим сообщение об ошибке
-		}          
-		elseif (empty($_POST['password2'])) { // Иначе если поле с паролем пустое
-			echo "<script>alert('Поле пароль не заполнено');</script>"; // Выводим сообщение об ошибке
-		} 
-		elseif (empty($_POST['email2'])) { // Иначе если поле с паролем пустое
-			echo "<script>alert('Поле email не заполнено');</script>"; // Выводим сообщение об ошибке
-		}                          
-		else { 
-			//if (isset($_POST['login2']) & isset($_POST['password2']) & isset($_POST['email2']))
-			// Иначе если поля не пустые
-			$login2 = $_POST['login2']; // Присваиваем переменной значение из поля с логином             
-			$password2 = $_POST['password2']; // Присваиваем другой переменной значение из поля с паролем
-			$email2 = $_POST['email2'];
-			$sql3="INSERT INTO users (login, password, email) VALUES ('$login2', '$password2', '$email2')"; 
-			$prep = $basa->prepare($sql3);
-			//$arr = $prep->execute(array("$_POST['login2']", "$_POST['password2']", "$_POST['email2']"));
-			$arr = $basa->query($sql); // Запрос к базе данных - отпарляем данные пользователя
-			//echo "Регистрация прошла успешно!"; 
-			//var_dump($prep);
-			//var_dump($arr );
-			echo "<br>";
-			$sql4 = "SELECT * FROM users"; 
-			foreach ($basa->query($sql4) as $row) {
-						echo "<br>"; 
-						echo $row['login'] . "<br>" ;
-						echo $row['password'] . "<br>" ;
-						echo $row['email'] . "<br>" ;
-						echo "<br>"; 
-			}
+if (isset($_POST['submit2'])) {
+	//Если форма регистрации отправлена и ВСЕ поля непустые...
+	if (!empty($_REQUEST['password2']) and !empty($_REQUEST['login2']) and !empty($_REQUEST['email2'])) {
+		$login = $_REQUEST['login2']; 
+		$password = $_REQUEST['password2']; 
+		$email = $_REQUEST['email2']; 
+				
+		// Выполняем проверку на незанятость логина. Ответ базы данных запишем в переменную $row. 
+		$sql = 'SELECT * FROM users  WHERE login="'.$login.'"';
+		$isLoginFree = $basa->query($sql);
+		$row = $isLoginFree->fetch(PDO::FETCH_ASSOC);
+		//print_r($row);
+		
+		//Если $row пустой - то логин не занят!
+		if (!isset($row['login'])) {
+			//Генерируем соль с помощью функции generateSalt() и солим пароль
+			$salt = generateSalt(); 
+			$saltedPassword = md5($password.$salt); 
+
+			// Добавляем в базу данных информаию из формы
+			$sql2 = 'INSERT INTO users SET login="'.$login.'", password="'.$saltedPassword.'", salt="'.$salt.'", email="'.$email.'"';
+			$prep = $basa->prepare($sql2);
+			$basa->query($sql2);
+			//сообщение об успешной регистрации
+			echo 'Вы успешно зарегистрированы!';
 		}
-} 
-//if (isset($_SESSION['login']) && isset($_SESSION['password'])) {
-	if (isset($_GET['exit'])) { // если пользователь нажал на "exit"
-		//session_start();
-		//unset($_SESSION['password']); // Очищаем сессию пароля
-		//unset($_SESSION['login']); // Очищаем сессию логина
-		//unset($_SESSION['id']); // Очищаем сессию id
-		unset($_SESSION['count']);
-		//echo "login ".$_SESSION['login']; 
+		//Если $isLoginFree НЕ пустой - то логин занят!
+		else {
+			echo 'Этот логин уже занят!';
+		}
 	}
-//}
+	//Не заполнено какое-либо из полей
+	else {
+		echo 'Заполните все поля!';
+	}
+}
+
 ?>
 
 <!DOCTYPE html>

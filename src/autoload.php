@@ -11,4 +11,6 @@ require_once __DIR__ . '/../src/core/functions/db.php';
 require_once __DIR__ . '/../src/core/functions/submitDb.php';
 //вывод информации из БД
 require_once __DIR__ . '/../src/core/functions/getNewsList.php';
-//require_once __DIR__ . '/../src/core/functions/printTableBd.php';				
+//require_once __DIR__ . '/../src/core/functions/printTableBd.php';	
+// Генерация соленого пароля	
+require_once __DIR__ . '/../src/core/functions/generateSalt.php';	

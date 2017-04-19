@@ -2,7 +2,6 @@
 $rubric = $_GET['theme'];
 //echo $rubric;
 ?>
-				
 <?php require_once '/var/www/html/myproject/common/header.php'; ?> 		
 <?php if (isset($_SESSION['login']) && isset($_SESSION['password'])): ?>
 						<h2><?php echo "Вы успешно вошли в систему под именем ".$_SESSION['login']; // Выводим сообщение, что пользователь авторизирован ?> </h2>
@@ -11,7 +10,7 @@ $rubric = $_GET['theme'];
 						bla bla bla  <br>
 						bla bla bla <br>
 						<!-- Выводим кнопку выхода -->
-						<form  method="post">
+						<form  action="/common/exit.php" method="post">
 							<input type="submit" name="exit" value="выход">
 						</form>
 <?php endif; ?>				

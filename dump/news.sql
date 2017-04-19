@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Апр 14 2017 г., 08:31
+-- Время создания: Апр 19 2017 г., 09:07
 -- Версия сервера: 5.5.54-0ubuntu0.14.04.1
 -- Версия PHP: 5.5.9-1ubuntu4.21
 
@@ -79,19 +79,21 @@ INSERT INTO `articles` (`rubrika`, `article_name`, `data`, `image`, `article_tex
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
+  `salt` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `password`, `email`) VALUES
-(1, 'login', 'password', 'email@gmail.com'),
-(5, 'login2', '111', '111@mail.ru'),
-(7, 'user1', '111', 'email44@gmail.com');
+INSERT INTO `users` (`id`, `login`, `password`, `email`, `salt`) VALUES
+(1, 'user1', '1a1501a0194e4dc3b1b308ab03f00e41', 'user1@mail.ru', 'o'),
+(2, 'login2', '705232cd74414da73bb16119376ff139', 'user2@mail.ru', 'C'),
+(3, 'user3', '393359608828eba2bdf76e34fb1b1046', 'user3@mail.ru', 'N'),
+(4, 'user4', '763251f7d7913aeef246b3828ea9b96f', 'user4@mail.ru', 'E');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

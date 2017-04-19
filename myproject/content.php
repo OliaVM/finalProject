@@ -6,7 +6,7 @@
 						bla bla bla  <br>
 						bla bla bla <br>
 						<!-- Выводим кнопку выхода -->
-						<form  method="post">
+						<form  action="/common/exit.php" method="post">
 							<input type="submit" name="exit" value="выход">
 						</form>
 					<?php endif; ?>	
