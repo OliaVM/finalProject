@@ -5,18 +5,6 @@ if (!empty($_SESSION['id']) and isset($_SESSION['id'])) {
 	echo "Вы успешно вошли в систему1: ".$_SESSION['login'] ."<br>";
 }
 */
-/*
-if (!empty($_SESSION['id']) and isset($_SESSION['id'])) {
-	if (isset($_GET['exit'])) { // если пользователь нажал на "exit"
-		//session_start();
-		//unset($_SESSION['password']); // Очищаем сессию пароля
-		//unset($_SESSION['login']); // Очищаем сессию логина
-		//unset($_SESSION['id']); // Очищаем сессию id
-		unset($_SESSION['count']);
-		//echo "login ".$_SESSION['login']; 
-	}
-}
-*/
 require_once '/var/www/html/src/autoload.php';
 $pathToConfig = '/var/www/html/config/app.php';
 $oConfig = new Config($pathToConfig);
@@ -106,7 +94,7 @@ if(isset($_POST["go"])){
 		$x = $ex1->getMessage();
 	}
 
-	// Работа с базой данных: добавление даты,  текстовой информации
+	// Работа с базой данных: добавление даты, текстовой информации
 	if (isset($_POST['theme']) && isset($_POST['title']) && isset($_POST['message']) && isset($ourimage)) {
 		try {
 			if(!empty($_POST['theme']) && !empty($_POST['title']) && !empty($_POST['message'])){
