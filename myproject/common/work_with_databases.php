@@ -27,7 +27,7 @@ if(isset($_POST["go"])){
 				$data = GetFullNowDateInCity(7);
 				
 				//Добавление информации в базу данных
-				$sql="INSERT INTO articles(rubrika, article_name, data, image, article_text) VALUES (?, ?, '$data', '$ourimage', ?)"; 
+				$sql="INSERT INTO articles(rubrika, article_name, data, image, article_text, like_number) VALUES (?, ?, '$data', '$ourimage', ?, '0')"; 
 				submitDb ($basa, $sql);
 			}
 			else {

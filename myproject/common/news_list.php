@@ -5,7 +5,14 @@
 	<p><h2><?php echo $row['article_name']; ?></h2></p>
 	<img src="<?php echo "http://myproject.local/".$row['image']."" ?>"> <br> 
 	<?php echo $row['article_text']; ?><br>
-	<?php echo "<br>"; ?>
+	<?php if (isset($_SESSION['login']) && isset($_SESSION['password'])): ?>
+		<form method="post">
+			<input type='hidden' name="id" value="<?php echo $row['id']; ?>">
+			<input type='hidden' name="like" value="<?php echo $row['like_number']; ?>">
+			<button  name="image_go" value="image_go" type="submit" style="background: #fdeaa8; border: none; margin: 0; padding: 0; border-radius: 0px"><img src="like.jpg"  width="100" height="40"></button> <b><?php echo $row['like_number']; ?></b>
+		</form>
+	<?php endif; ?>	
+	<br> 
 <?php endforeach; ?>
 
 

@@ -11,7 +11,7 @@
 			<input type="text" name="title" size="152" maxlength="150" value="<?php echo $row['article_name']; ?>"><br>
 			Введите текст статьи (объемом до 7000 знаков): <br>
 			<textarea name="message" rows="10" cols="50" maxlength="7000"><?php echo $row['article_text']; ?></textarea><br>
-			<input type="submit" name="go" value="загрузить на сервер"><br>
+			<input type="submit" name="go_edit" value="загрузить на сервер"><br>
 		</form>
 	<?php endforeach; ?>
 <?php endif; ?>

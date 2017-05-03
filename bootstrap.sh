@@ -42,8 +42,8 @@ sed -i "s/display_errors = .*/display_errors = On/" ${php_config_file}
 sed -i "s/short_open_tag = .*/short_open_tag = On/" ${php_config_file}
 
 echo "--- Install MySql ---"
-echo "mysql-server mysql-server/root_password password ${DBPASSWD}" | debconf-set-selections
-echo "mysql-server mysql-server/root_password_again password ${DBPASSWD}" | debconf-set-selections
+echo "mysql-server mysql-server/root_password password ${DBPASSWD_ROOT}" | debconf-set-selections
+echo "mysql-server mysql-server/root_password_again password ${DBPASSWD_ROOT}" | debconf-set-selections
 sudo apt-get -y install mysql-server-5.5 mysql-client
 
 mysql -uroot -p${DBPASSWD_ROOT} -e "CREATE DATABASE ${DBNAME}"
@@ -52,9 +52,9 @@ mysql -uroot -p${DBPASSWD_ROOT} ${DBNAME} < ${DBDUMPSQL}
 
 echo "--- Install PhpMyAdmin ---"
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
-sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password $DBPASSWD"
-sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $DBPASSWD"
-sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $DBPASSWD"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password $DBPASSWD_ROOT"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $DBPASSWD_ROOT"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $DBPASSWD_ROOT"
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2"
 sudo apt-get -y install phpmyadmin
 

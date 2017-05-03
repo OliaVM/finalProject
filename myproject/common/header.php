@@ -23,6 +23,9 @@ require_once '/var/www/html/myproject/common/news_with_pagination_show.php';
 //Занесение в базу картинки и текстовой информации, добавленных пользователем; текущей даты,вычисленной с помощью функции 
 require_once '/var/www/html/myproject/common/work_with_databases.php';
 
+//счетчик лайков
+require_once '/var/www/html/myproject/common/likes_counter.php';
+
 //авторизация	
 require_once '/var/www/html/myproject/avtorization/avtorization.php';
 // регистрация

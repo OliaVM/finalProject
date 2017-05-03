@@ -2,16 +2,27 @@
 <?php
 //Достаем запсись из БД и выводим на экран для редактирования
 if (isset($_GET['red_id'])) { 
-    	$id = $_GET['red_id']; 
-       	$sql3 = 'SELECT * FROM articles WHERE id='.$id.'';
-		$row5 = $basa->query($sql3); 
-		//$sth = $basa->prepare($sql); 
-		//$sth->execute();
-		//$row5 = $sth->fetch(PDO::FETCH_ASSOC); //Преобразуем ответ из БД в строку массива
+    $id = $_GET['red_id']; 
+    $sql3 = 'SELECT * FROM articles WHERE id='.$id.'';
+	$row5 = $basa->query($sql3); 
+	//$sth = $basa->prepare($sql); 
+	//$sth->execute();
+	//$row5 = $sth->fetch(PDO::FETCH_ASSOC); //Преобразуем ответ из БД в строку массива
 }
 //Редактирование записи
-if (isset($_GET['red_id'])) { //обновляем информацию в отредавтированной записи (в БД)
-        if (isset($_POST['go'])) { 
+if (isset($_GET['red_id'])) { 
+    if (isset($_POST['go_edit'])) { 
+        	//обновляем информацию в отредавтированной записи (в БД)
+			
+			$sql = 'UPDATE articles SET article_name =:article_name, article_text =:article_text, rubrika =:rubrika  WHERE id =:id';
+			$prep = $basa->prepare($sql);
+			$prep->bindValue(':article_name', $_POST['title'], PDO::PARAM_STR);
+			$prep->bindValue(':article_text', $_POST['message'], PDO::PARAM_STR);
+			$prep->bindValue(':rubrika', $_POST['theme'], PDO::PARAM_STR);
+			$prep->bindValue(':id', $_GET['red_id'], PDO::PARAM_INT);
+			$prep->execute(); 
+						
+            /*
         	$sql = 'UPDATE articles  SET  article_name='.$_POST['title'].' WHERE id='.$_GET['red_id'].'';
         	$result = $basa->query($sql);
 			//$sql5 = 'UPDATE articles  SET  article_name='.$_POST['title'].', article_text='.$_POST['message'].' , rubrika='.$_POST['theme'].'  WHERE id='.$_GET['red_id'].'';
@@ -21,8 +32,9 @@ if (isset($_GET['red_id'])) { //обновляем информацию в от�
 			
 			$sql3 = 'UPDATE articles  SET  rubrika='.$_POST['theme'].' WHERE id='.$_GET['red_id'].'';
 			$result3 = $basa->query($sql3);
-		}
-    }
+			*/
+	}
+}
 ?>
 
 <?php
