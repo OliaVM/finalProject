@@ -17,6 +17,9 @@ $basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['passwor
 //else{
 //die('Ошибка подключения к серверу баз данных.');}
 
+//Проверка существования куки
+require_once '/var/www/html/myproject/avtorization/cookies.php';
+
 //вывод информации из базы данных на страницы (c постраничной навигацией)
 require_once '/var/www/html/myproject/common/news_with_pagination_show.php';
 // Работа с базой данных: 

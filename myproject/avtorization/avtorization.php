@@ -34,25 +34,39 @@ if (!empty($_REQUEST['password']) and !empty($_REQUEST['login'])) {
 			$_SESSION['login'] = $rowUser['login']; 
 			$_SESSION['password'] = $rowUser['password']; 
 			$_SESSION['role'] = $rowUser['role']; 
+
+			//Проверяем, была ли нажата галочка 'Запомнить меня':
+			if ( !empty($_REQUEST['remember']) and $_REQUEST['remember'] == 1 ) {
+				//Сформируем случайную строку для куки (используем функцию generateSalt):
+				$key = generateSalt(); //назовем ее $key
+
+				//Пишем куки (имя куки, значение, время жизни - сейчас+месяц)
+				setcookie('login', $rowUser['login'], time()+60*60*24*30); //логин
+				setcookie('key', $key, time()+60*60*24*30); //случайная строка
+
+				/*
+					Пишем эту же куку в базу данных для данного юзера.
+
+					Формируем и отсылаем SQL запрос:
+					ОБНОВИТЬ  таблицу_users УСТАНОВИТЬ cookie = $key ГДЕ login=$login.
+				*/
+				$sql = 'UPDATE users SET cookie="'.$key.'" WHERE login="'.$login.'"';
+				$keys = $basa->query($sql);
+				//echo $key;
+			}
+			/*
 			if (!isset($_SESSION['count'])) {
 				$_SESSION['count'] = 0;
 			}	
 			else {
 				$_SESSION['count']++;  
 			}
+			*/
 		}
 		//Если соленый пароль из базы НЕ совпадает с соленым паролем из формы
 		//Выводим сообщение 'Неправильный логин или пароль'.
 		else {
 			echo "не верно введен логин или пароль";
-			/*
-			echo "<br>";
-			echo "saltedPassword= ".$saltedPassword;
-			echo "<br>";
-			echo "rowUser['password']=" . $rowUser['password'];
-			echo "<br>";
-			echo " md salt =" . md5($salt);
-			*/
 		}
 	} else {
 		echo "пользователь с таким именем не зарегистрирован";
