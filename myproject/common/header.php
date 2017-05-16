@@ -3,13 +3,17 @@ session_start();
 /*
 if (!empty($_SESSION['id']) and isset($_SESSION['id'])) {
 	echo "Вы успешно вошли в систему1: ".$_SESSION['login'] ."<br>";
+	echo "id: ".$_SESSION['id'] ."<br>";
+	echo "пароль: ".$_SESSION['password'] ."<br>";
+	echo "hjkm: ".$_SESSION['role'] ."<br>";
 }
 */
+
 require_once '/var/www/html/src/autoload.php';
 $pathToConfig = '/var/www/html/config/app.php';
 $oConfig = new Config($pathToConfig);
 //$countOfNews = $oConfig->get('count_of_news');
-//Подключение к БД
+//Подключение к БД - Connection with database
 $dbConfig = $oConfig->get('db');
 $basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['password']);
 //if($basa){
@@ -17,21 +21,23 @@ $basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['passwor
 //else{
 //die('Ошибка подключения к серверу баз данных.');}
 
-//Проверка существования куки
+//Проверка существования куки - Cookie existence check
 require_once '/var/www/html/myproject/avtorization/cookies.php';
 
 //вывод информации из базы данных на страницы (c постраничной навигацией)
+//display of information from database on page(with pagination)
 require_once '/var/www/html/myproject/common/news_with_pagination_show.php';
-// Работа с базой данных: 
+// Работа с базой данных: - Work with database:
 //Занесение в базу картинки и текстовой информации, добавленных пользователем; текущей даты,вычисленной с помощью функции 
+//adding in database: picture and text information, which the user uploaded; date,calculated using the function 
 require_once '/var/www/html/myproject/common/work_with_databases.php';
 
-//счетчик лайков
+//счетчик лайков - Counter of likes
 require_once '/var/www/html/myproject/common/likes_counter.php';
 
-//авторизация	
+//авторизация	- Authorization
 require_once '/var/www/html/myproject/avtorization/avtorization.php';
-// регистрация
+// регистрация - Registration
 require_once '/var/www/html/myproject/avtorization/registration.php';
 ?>
 
@@ -58,6 +64,10 @@ require_once '/var/www/html/myproject/avtorization/registration.php';
 	    <div class="span2" id="box4" id="menu"> 
 			<ul>
 				<li><a href="/index.php?page=1">Главная</a></li>
+				<br>
+				<li><a href="http://myproject.local/avtorization/avtorization_page.php">Авторизоваться</a></li>
+				<li><a href="http://myproject.local/avtorization/registration_page.php">Зарегистрироваться</a></li>
+				<br>
 				<li><a href="/news.php?theme=russia&page=1">Россия</a></li>
 				<li><a href="/news.php?theme=world&page=1">Мир</a></li>
 				<li><a href="/news.php?theme=economics&page=1">Экономика</a></li>

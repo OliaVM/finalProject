@@ -5,15 +5,17 @@ body {
 h1 {
 	color: #7d2779;
 }
+h2.redcolor {
+	color: #c70000;
+}
 #box12 {
 	background-color: #ebc5eb;
-text-align: center;
+	text-align: center;
 }
 #box4 {
 	background-color: #FFBBFF;
 }
 #box8 {
 	background-color: #FFF0F5;
-text-align: center;
-
+	text-align: center;
 }

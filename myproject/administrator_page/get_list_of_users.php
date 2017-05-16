@@ -1,10 +1,10 @@
 <?php require_once '/var/www/html/myproject/common/header.php'; ?> 
 <?php	
-// Показать список пользователей
+// Показываем список пользователей - Show the list of the users
 $sql = "SELECT login, id FROM users";
 $users_list = $basa->query($sql);
 
-// Показать информацию о пользователе
+// Показsываем информацию о пользователе - Show the information about the user
 if (isset($_GET['userId'])) {
 	$showUser = $_GET['userId'];
 	//var_dump($showUser);
