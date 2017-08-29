@@ -9,7 +9,7 @@
 	<tr><td><?php echo $row1['login']; ?></td>
 		<td><?php echo $row1['id']; ?></td>
 		<?php //$x = 1; ?>
-		<td><a href='http://myproject.local/administrator_page/get_list_of_users.php?userId=<?php echo $row1['id']; ?>'>Посмотреть информацию о пользователе</a><td>
+		<td><a href='/index.php?page_name=get_list_of_users_page&userId=<?php echo $row1['id']; ?>'>Посмотреть информацию о пользователе</a><td>
 	</tr>
 	<?php endforeach; ?>
 </table> 

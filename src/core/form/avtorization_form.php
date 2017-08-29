@@ -1,4 +1,3 @@
-						<?php //if (!isset($_rowUser)): ?>
 						<?php if (!isset($_SESSION['password'])): ?>
 						<?php //if ($_SESSION['auth'] == false): ?>
 							<div align="center"><h2>Для авторизации на сайте введите данные:</h2>
@@ -7,7 +6,6 @@
 									Пароль: <input type="password" name="password"><br>
 									Запомнить меня: <input name='remember' type='checkbox' value='1'><br>
 									<input type="submit" name="submit" value='Отправить'><br>
-									<!-- Если вы не зарегистрированы: <input type="submit" name="reg" value="Зарегистрироваться"> -->
 								</form>
 							</div>
 						<?php endif; ?> 

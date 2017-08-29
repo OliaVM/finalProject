@@ -1,15 +1,17 @@
 <?php
 //Добавление картинки
 function uploadImage($uploaddir, $nameOfimage) {
-				$uploadfile = "$uploaddir$nameOfimage"; 
+				$uploadfile_with_short_path = "$uploaddir$nameOfimage";
+				$uploadfile = "/var/www/html/myproject/" ."$uploaddir$nameOfimage"; 
+				var_dump($uploadfile);
 				//в переменную $uploadfile будет входить папка и имя изображения
 				// проверяем загружается ли изображение 
 				// проверяем продходит ли изображение по размеру и формату. Разрешенный размер - до 512 Кб
 				//Допустимые форматы: jpg, jpeg, png
-				if(($_FILES['userfile']['type'] == 'image/gif' || $_FILES['userfile']['type'] == 'image/jpeg' || $_FILES['userfile']['type'] == 'image/png') && ($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size']<=512000)) { 
+				if (($_FILES['userfile']['type'] == 'image/gif' || $_FILES['userfile']['type'] == 'image/jpeg' || $_FILES['userfile']['type'] == 'image/png') && ($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size']<=512000)) { 
 				// Указываем максимальный размер загружаемого файла. Сейчас до 512 Кб 
 				  	if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) { //eсли файл действительно загружен на 
-			           //сервер, он будет перемещён в "$uploaddir$apend"; 
+			           //сервер, он будет перемещён в "$uploaddir"; 
 					   //идет процесс загрузки изображения 
 					   $size = getimagesize($uploadfile); 
 					   // получаем размер пикселей изображения 
@@ -22,7 +24,7 @@ function uploadImage($uploaddir, $nameOfimage) {
 				     	} 
 				   	} 
 				}
-				return $uploadfile;
+				return $uploadfile_with_short_path;
 }
 
 
