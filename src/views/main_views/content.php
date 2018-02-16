@@ -1,5 +1,3 @@
-	<!-- Информация, доступная после авторизации -->
-	<?php require '/var/www/html/src/views/views_for_authorized_users/protected_text.php'; ?>
 	<!-- Доступно неавторизованным пользователям -->
 	<?php echo "<h2>" . "Добавление новости" . "</h2>"; ?>
 	<!-- Форма ввода новостей пользователем -->		
@@ -13,7 +11,7 @@
 	<?php	endif; ?> 
 </div>
 <div>
-	<?php require '/var/www/html/src/views/news_list.php'; ?> 
+	<?php require '/var/www/html/src/views/pages/news.php'; ?> 
 						
 					
 

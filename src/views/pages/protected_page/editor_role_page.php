@@ -1,5 +1,3 @@
-<!-- Выводим кнопку выхода из сессии - Display the exit button from the session -->
-<?php require_once '/var/www/html/src/core/form/exit_button.php' ?>
 <!-- Display the editor menu -->
 <div> 
 	<ul>
