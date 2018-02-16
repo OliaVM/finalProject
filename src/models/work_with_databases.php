@@ -2,45 +2,88 @@
 // Работа с базой данных: - Work with database:
 //Занесение в базу картинки и текстовой информации, добавленных пользователем; текущей даты,вычисленной с помощью функции 
 //adding in database: picture and text information, which the user uploaded; date,calculated using the function 
-if(isset($_POST["go"])){
+
+
+try {
 	//Добавление картинки на сервер и ссылки на картинку в базу данных
 	//Adding the picture on the server, and a link to the picture in the database
-	try {
-		if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
-			$uploaddir = 'images/'; 	// это папка, в которую будет загружаться картинка
-			$nameOfimage=date('YmdHis').rand(100,1000).'.jpg'; 	// это имя, которое будет присвоенно изображению 
-			$ourimage = uploadImage($uploaddir, $nameOfimage);
-		}
-		else {
-		//Генерируем исключение - Generate the exception
-        throw new Exception('Добавьте картинку!');
-     	}
-    }
-	catch (Exception $ex) {
-		//Выводим сообщение об исключении - Print the exception message
-		$x = $ex->getMessage();
+	if (!isset($_SESSION['login']) || !isset($_SESSION['password'])) { 
+		throw new Exception('Авторизуйтесь!');
 	}
+	if (isset($_POST["go"])) {
+		if (is_uploaded_file($_FILES['userfile']['tmp_name']) == false) {
+			//Генерируем исключение - Generate the exception
+		     throw new Exception('Добавьте картинку!');
+		}
 
-	// Работа с базой данных: добавление даты, текстовой информации
-	//Work with database: Adding the text information and the date
-	if (isset($_POST['theme']) && isset($_POST['title']) && isset($_POST['message']) && isset($ourimage)) {
-		try {
-			if(!empty($_POST['theme']) && !empty($_POST['title']) && !empty($_POST['message'])){
-				// Вычисление даты публикации - текущей даты - The calculation of the date of publication
-				$data = GetFullNowDateInCity(7);
-				
-				//Добавление информации в базу данных - Adding information in the database
-				$sql="INSERT INTO articles(rubrika, article_name, data, image, article_text, like_number) VALUES (?, ?, '$data', '$ourimage', ?, '0')"; 
-				submitDb ($basa, $sql);
-			}
-			else {
-				//Генерируем исключение - Generate the exception
-        		throw new Exception('Заполните все поля!');
-			}
+		$uploaddir = 'images/'; 	// это папка, в которую будет загружаться картинка
+		$nameOfimage=date('YmdHis').rand(100,1000).'.jpg'; 	// это имя, которое будет присвоенно изображению 
+		//uploadImage($uploaddir, $nameOfimage);
+		$uploadfile_with_short_path = "$uploaddir$nameOfimage";
+		$uploadfile = "/var/www/html/myproject/" ."$uploaddir$nameOfimage"; 
+		//в переменную $uploadfile будет входить папка и имя изображения
+		// проверяем загружается ли изображение 
+		// проверяем продходит ли изображение по размеру и формату. Разрешенный размер - до 512 Кб
+		//Допустимые форматы: jpg, jpeg, png
+		if (($_FILES['userfile']['type'] == 'image/gif' || $_FILES['userfile']['type'] == 'image/jpeg' || $_FILES['userfile']['type'] == 'image/png') && ($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size']<=512000)) { 
+		// Указываем максимальный размер загружаемого файла. Сейчас до 512 Кб 
+		  	if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) { //eсли файл действительно загружен на 
+	           //сервер, он будет перемещён в "$uploaddir"; 
+			   //идет процесс загрузки изображения 
+			   $size = getimagesize($uploadfile); 
+			   // получаем размер пикселей изображения 
+			   if ($size[0] < 501 && $size[1]<1501) { 
+			     // если размер изображения не более 500 пикселей по ширине и не более 1500 по  высоте 
+			     //echo "Файл загружен. Путь к файлу: <b>http://myproject.local/".$uploadfile."</b>"; 
+			    } else {
+		     		unlink($uploadfile); // удаление файла 
+		     	} 
+		   	} 
 		}
-		catch (Exception $ex2) {
-			//Выводим сообщение об исключении - Print the exception message
-			$x2 = $ex2->getMessage();
+		$ourimage = $uploadfile_with_short_path;
+
+		// Работа с базой данных: добавление даты, текстовой информации
+		//Work with database: Adding the text information and the date
+		/*if (!isset($_POST['article_title']) || !isset($_POST['rubric'])  || !isset($_POST['article_short_text']) || !isset($_POST['article_full_text']) || !isset($ourimage)) {
+			//Генерируем исключение - Generate the exception
+	        throw new Exception('Заполните все поля!');
+		} */
+		if (empty($_POST['article_title']) || empty($_POST['rubric'])  || empty($_POST['article_short_text']) || empty($_POST['article_full_text']) || empty($ourimage)) {
+			//Генерируем исключение - Generate the exception
+	        throw new Exception('Заполните все поля!');
 		}
+		// Вычисление даты публикации - текущей даты - The calculation of the date of publication
+		$data = GetFullNowDateInCity(7);
+		$login_id = $_SESSION['id'];
+		$image = $ourimage;
+		//Добавление информации в базу данных - Adding information in the database
+		$sql="INSERT INTO articles (login_id, rubric, article_title, article_date, image, article_short_text, article_full_text, count_of_likes) VALUES (:login_id, :rubric, :article_title, :article_date, :image, :article_short_text, :article_full_text, :count_of_likes)"; 
+		$prep = $basa->prepare($sql);
+		/*
+		//ptotect from injections
+		$_POST['article_title'] = $basa->quote($_POST['article_title']); 
+		$_POST['article_short_text'] = $basa->quote($_POST['article_short_text']); 
+		$_POST['article_full_text'] = $basa->quote($_POST['article_full_text']); 
+		*/
+		$prep->bindValue(':login_id', $_SESSION['id'], PDO::PARAM_INT);
+		$prep->bindValue(':rubric', $_POST['rubric'], PDO::PARAM_STR);
+		$prep->bindValue(':article_title', $_POST['article_title'], PDO::PARAM_STR);
+		$prep->bindValue(':article_full_text', $_POST['article_full_text'], PDO::PARAM_STR);
+		$prep->bindValue(':article_short_text', $_POST['article_short_text'], PDO::PARAM_STR);		
+		$prep->bindValue(':count_of_likes', 0, PDO::PARAM_INT);
+		$prep->bindValue(':article_date', $data, PDO::PARAM_STR);
+		$prep->bindValue(':image', $image, PDO::PARAM_STR);
+		$arr = $prep->execute();
 	}
+}
+catch (Exception $ex) {
+	//Выводим сообщение об исключении - Print the exception message
+	$x = $ex->getMessage();
+}
+
+
+// get date of create of article
+function GetFullNowDateInCity($timezoneInCity){
+	$FullNowDateInCity = date('d.m.Y H:i', (time()+$timezoneInCity*60*60));
+	return $FullNowDateInCity;
 }

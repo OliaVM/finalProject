@@ -20,12 +20,12 @@
 						<?php require_once '/var/www/html/src/core/form/exit_button.php' ?>
 				<?php endif; ?>
 				<br>
-				<li><a href="/index.php?page_name=news&theme=russia&page=1">Россия</a></li>
-				<li><a href="/index.php?page_name=news&theme=world&page=1">Мир</a></li>
-				<li><a href="/index.php?page_name=news&theme=economics&page=1">Экономика</a></li>
-				<li><a href="/index.php?page_name=news&theme=science&page=1">Наука</a></li>
-				<li><a href="/index.php?page_name=news&theme=culture&page=1">Культура</a></li>
-				<li><a href="/index.php?page_name=news&theme=sport&page=1">Спорт</a></li>
-				<li><a href="/index.php?page_name=news&theme=travel&page=1">Путешествия</a></li>
+				<li><a href="/index.php?page_name=news&rubric=russia&page=1">Россия</a></li>
+				<li><a href="/index.php?page_name=news&rubric=world&page=1">Мир</a></li>
+				<li><a href="/index.php?page_name=news&rubric=economics&page=1">Экономика</a></li>
+				<li><a href="/index.php?page_name=news&rubric=science&page=1">Наука</a></li>
+				<li><a href="/index.php?page_name=news&rubric=culture&page=1">Культура</a></li>
+				<li><a href="/index.php?page_name=news&rubric=sport&page=1">Спорт</a></li>
+				<li><a href="/index.php?page_name=news&rubric=travel&page=1">Путешествия</a></li>
 </ul>
 
