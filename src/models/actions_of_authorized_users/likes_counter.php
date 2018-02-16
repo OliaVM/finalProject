@@ -1,7 +1,7 @@
 <?php
 try {
 	if (!isset($_SESSION['login']) || !isset($_SESSION['password'])) {
-		throw new Exception('Авторизуйтесь');
+		//throw new Exception('Авторизуйтесь');
 	}
 	if (isset($_POST['image_go'])) { //если пользователь нажал на кнопку поставить лайк
 		$sql_arrayLike = "SELECT * FROM likes WHERE login_id = :login_id and article_id = :article_id"; //проверяем не голосовал ли уже пользователь за эту новость

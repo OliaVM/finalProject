@@ -57,13 +57,12 @@ require_once '/var/www/html/src/models/authorization/registration.php';
 
 
 //вывод информации из базы данных на страницы (c постраничной навигацией)
-//display of information from database on page(with pagination)
+//show information from database (with pagination)
 require_once '/var/www/html/src/models/news_with_pagination_show.php';
-// Работа с базой данных: - Work with database:
-//Занесение в базу картинки и текстовой информации, добавленных пользователем; текущей даты,вычисленной с помощью функции 
-//adding in database: picture and text information, which the user uploaded; date,calculated using the function 
+
+//add in database: picture and text information, date
 require_once '/var/www/html/src/models/work_with_databases.php';
-//счетчик лайков - Counter of likes
+//add likes
 require_once '/var/www/html/src/models/actions_of_authorized_users/likes_counter.php';
 
 
