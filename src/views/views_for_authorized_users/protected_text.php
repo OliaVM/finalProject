@@ -2,12 +2,12 @@
 						<!-- Вход под ролью администратора - The input under the administrator role -->
 						<?php if ($_SESSION['role'] == "admin"): ?>
 							<div> 
-								<a href="http://myproject.local/administrator_page/admin_page.php">Перейти на страницу администратора</a>
+								<a href="/index.php?page_name=admin_role_page">Перейти на страницу администратора</a>
 							</div>
 						<!-- Вход под ролью редактора The input under the editor role-->
 						<?php elseif ($_SESSION['role'] == "editor"): ?>
 							<div> 
-								<a href="http://myproject.local/administrator_page/editor_page.php">Перейти на страницу редактора</a>
+								<a href="/index.php?page_name=editor_role_page">Перейти на страницу редактора</a>
 							</div>
 						<?php endif; ?>
 						<!-- Доступно всем зарегистрированным пользователям - is available to all registered users -->

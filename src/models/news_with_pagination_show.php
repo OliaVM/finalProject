@@ -2,8 +2,6 @@
 //вывод информации из БД на страницы -  display of information from database  on pages
 //$rubric = $_GET['rubric'];
 if (isset($rubric)) {
-	echo "aa";
-	var_dump($rubric);
 	if (isset($_GET['page'])) { 
 		// число статей, выводимых на станице - the count of articles, displayed on the page
 		$num = 3; 
@@ -12,6 +10,7 @@ if (isset($rubric)) {
 		// Определяем общее число статей в базе данных - Define the total count of articles in the database
 		$query=$basa->query("SELECT id FROM articles WHERE rubric='$rubric'");
 		$posts =$query->rowCount();
+
 		//echo $posts . "<br>";
 			
 		// Находим общее число страниц - Find the total count of pages
@@ -27,8 +26,8 @@ if (isset($rubric)) {
 		//echo $start . "=start";
 		// Выбираем количество статей $num начиная с номера $start 
 		// Choose the number of articles $num starting with number $start
-		$sql2 = "SELECT * FROM articles WHERE rubrikc='$rubric' LIMIT $start, $num"; 
-		$news = getNewsList($basa, $sql2);
+		$sql = "SELECT * FROM articles WHERE rubric='$rubric' LIMIT $start, $num"; 
+		$news = $basa->query($sql);
 	}
 }
 //вывод информации из БД на главную страницу - display of information from database on main page
@@ -55,10 +54,10 @@ else if (isset($_GET['page'])) {
 	//echo $start;
 	// Choose the number of articles $num starting with number $start
 	// Выбираем количество статей $num начиная с номера $start 
-	$sql2 = "SELECT * FROM articles LIMIT $start, $num";
-	$news = getNewsList($basa, $sql2);
+	$sql = "SELECT * FROM articles LIMIT $start, $num";
+	$news = $basa->query($sql);
 }
 else {
-	$sql2 = "SELECT * FROM articles"; 
-	$news = getNewsList($basa, $sql2);
+	$sql = "SELECT * FROM articles"; 
+	$news = $basa->query($sql);
 }

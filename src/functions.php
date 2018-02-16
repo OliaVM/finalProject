@@ -10,8 +10,8 @@ $basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['passwor
 $basa->exec("set names utf8");
 
 //router
-if (isset($_GET['theme'])) {
-	$rubric = $_GET['theme'];
+if (isset($_GET['rubric'])) {
+	$rubric = $_GET['rubric'];
 }
 //path from template.php to our page
 if (isset($_GET['page_name'])) {

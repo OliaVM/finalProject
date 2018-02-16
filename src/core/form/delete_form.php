@@ -3,11 +3,12 @@
 	<?php foreach ($news as $row): ?>
 		<br> 
 		<p><h2><?php echo $row['id']; ?></h2></p>
-		<p><h2><?php echo $row['data']; ?></h2></p>
-		<p><h2><?php echo $row['rubrika']; ?></h2></p>
-		<p><h2><?php echo $row['article_name']; ?></h2></p>
+		<p><h2><?php echo $row['article_date']; ?></h2></p>
+		<p><h2><?php echo $row['rubric']; ?></h2></p>
+		<p><h2><?php echo $row['article_title']; ?></h2></p>
 		<img src="<?php echo "/".$row['image']."" ?>"> <br>  
-		<?php echo $row['article_text']; ?><br>
+		<?php echo $row['article_short_text']; ?><br>
+		<?php echo $row['article_full_text']; ?><br>
 		<?php echo "<br>"; ?>
 		<?php if (isset($_SESSION['login']) && isset($_SESSION['password'])): ?>
 			<form method="post">
