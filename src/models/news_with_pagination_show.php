@@ -1,6 +1,5 @@
 <?php
 //вывод информации из БД на страницы -  display of information from database  on pages
-//$rubric = $_GET['rubric'];
 if (isset($rubric)) {
 	if (isset($_GET['page'])) { 
 		// число статей, выводимых на станице - the count of articles, displayed on the page
@@ -10,20 +9,12 @@ if (isset($rubric)) {
 		// Определяем общее число статей в базе данных - Define the total count of articles in the database
 		$query=$basa->query("SELECT id FROM articles WHERE rubric='$rubric'");
 		$posts =$query->rowCount();
-
-		//echo $posts . "<br>";
-			
 		// Находим общее число страниц - Find the total count of pages
 		$total = ceil($posts / $num); 
-		//echo $total. "<br>"; 
-		// ceil - Округляет дробь в большую сторону, если
-		//на последней странице будет меньшее количество записей, чем на остальных.
-		//если не будет делиться без остатка
-
+		// ceil - Округляет дробь в большую сторону, если на последней странице будет меньшее количество записей, чем на остальных. Т.е. если не будет делиться без остатка
 		// Вычисляем c какого номера следует выводить статьи на данной странице 
 		// Calculated what the number of article is start of page
 		$start = $page * $num - $num;  // нумерация начинается с 0
-		//echo $start . "=start";
 		// Выбираем количество статей $num начиная с номера $start 
 		// Choose the number of articles $num starting with number $start
 		$sql = "SELECT * FROM articles WHERE rubric='$rubric' LIMIT $start, $num"; 
@@ -39,21 +30,10 @@ else if (isset($_GET['page'])) {
 	// Определяем общее число статей в базе данных - Define the total count of articles in the database
 	$query=$basa->query("SELECT id FROM articles");
 	$posts =$query->rowCount();
-	//echo $posts;
-
 	// Находим общее число страниц - Find the total count of pages
 	$total = ceil($posts / $num); 
-	//echo $total; //4
-	// ceil - Округляет дробь в большую сторону, если
-	//на последней странице будет меньшее количество записей, чем на остальных.
-	//если не будет делиться без остатка
-
-	// Вычисляем c какого номера следует выводить статьи на данной странице
 	// Calculated what the number of article is start of page 
 	$start = $page * $num - $num;  // нумерация начинается с 0
-	//echo $start;
-	// Choose the number of articles $num starting with number $start
-	// Выбираем количество статей $num начиная с номера $start 
 	$sql = "SELECT * FROM articles LIMIT $start, $num";
 	$news = $basa->query($sql);
 }

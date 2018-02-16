@@ -1,12 +1,14 @@
 ﻿<?php
 session_start();
-require_once '/var/www/html/src/autoload.php';
-$pathToConfig = '/var/www/html/config/app.php';
-$oConfig = new Config($pathToConfig);
+require_once __DIR__ . '/../src/core/classes/Config.php';
+// Генерация соленого пароля	
+require_once __DIR__ . '/../src/core/functions/generateSalt.php';
 
 //Подключение к БД - Connection with database
+$pathToConfig = '/var/www/html/config/app.php';
+$oConfig = new Config($pathToConfig);
 $dbConfig = $oConfig->get('db');
-$basa  = getDbConnection($dbConfig['dns'], $dbConfig['user'], $dbConfig['password']);
+$basa  = new PDO($dbConfig['dns'], $dbConfig['user'], $dbConfig['password']);
 $basa->exec("set names utf8");
 
 //router
