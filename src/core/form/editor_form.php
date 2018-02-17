@@ -5,7 +5,7 @@
 		    <form method="POST">
 				<br> 
 				<p><h2><?php echo $row['id']; ?></h2></p>
-				<p><h2><?php //echo $row['article_date']; ?></h2></p>
+				<p><h2><?php echo $row['article_date']; ?></h2></p>
 				Выберите название рубрики: 
 			 	<input type="text" name="rubric" value="<?php echo $row['rubric']; ?>"><br>
 				Введите название статьи (объемом до 150 знаков): 
@@ -20,4 +20,6 @@
 	<?php endif; ?>
 <?php endif; ?>
 
-
+<?php	if (isset($exEdit)): ?>  
+	<?php echo "<h2 class='redcolor'>" . $exEdit . "</h2>"; ?>
+<?php	endif; ?> 

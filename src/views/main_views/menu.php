@@ -1,5 +1,5 @@
 <ul>
-	<li><a href="/index.php">Главная</a></li>
+	<li><a href="/index.php?page=1">Главная</a></li>
 	<br>
 	<li><a href="/index.php?page_name=authorization_page">Авторизоваться</a></li>
 	<li><a href="/index.php?page_name=registration_page">Зарегистрироваться</a></li>
@@ -9,6 +9,8 @@
 			<?php if ($_SESSION['role'] == "admin"): ?>
 				<div> 
 					<a href="/index.php?page_name=admin_role_page">Перейти на страницу администратора</a>
+					<li><a href="/index.php?page_name=delete_page">Удаление записей пользователей</a></li>
+					<li><a href="/index.php?page_name=editor_page">Редактирование записей пользователей</a></li>
 				</div>
 			<!-- Вход под ролью редактора The input under the editor role-->
 			<?php elseif ($_SESSION['role'] == "editor"): ?>
@@ -17,7 +19,7 @@
 				</div>
 			<?php endif; ?>
 			<!-- Выводим кнопку выхода из сессии - Display the exit button from the session -->
-			<?php require_once '/var/www/html/src/core/form/exit_button.php' ?>
+			<?php require_once __DIR__ . '/../../core/form/exit_button.php' ?>
 	<?php endif; ?>
 	<br>
 	<li><a href="/index.php?page_name=news&rubric=russia&page=1">Россия</a></li>

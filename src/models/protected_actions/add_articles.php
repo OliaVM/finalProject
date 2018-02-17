@@ -1,35 +1,28 @@
 <?php
-// Работа с базой данных: - Work with database:
-//Занесение в базу картинки и текстовой информации, добавленных пользователем; текущей даты,вычисленной с помощью функции 
+//Добавление в базу картинки и текстовой информации, добавленных пользователем; текущей даты,вычисленной с помощью функции 
 //adding in database: picture and text information, which the user uploaded; date,calculated using the function 
-
-
 try {
 	//Добавление картинки на сервер и ссылки на картинку в базу данных
 	//Adding the picture on the server, and a link to the picture in the database
 	if (!isset($_SESSION['login']) || !isset($_SESSION['password'])) { 
-		throw new Exception('Авторизуйтесь!');
+		throw new Exception('Авторизуйтесь, чтобы добавить статью!');
 	}
 	if (isset($_POST["go"])) {
 		if (is_uploaded_file($_FILES['userfile']['tmp_name']) == false) {
-			//Генерируем исключение - Generate the exception
 		     throw new Exception('Добавьте картинку!');
 		}
-
 		$uploaddir = 'images/'; 	// это папка, в которую будет загружаться картинка
-		$nameOfimage=date('YmdHis').rand(100,1000).'.jpg'; 	// это имя, которое будет присвоенно изображению 
+		$nameOfimage=date('YmdHis').rand(100,1000).'.jpg'; 	
 		//uploadImage($uploaddir, $nameOfimage);
 		$uploadfile_with_short_path = "$uploaddir$nameOfimage";
-		$uploadfile = "/var/www/html/myproject/" ."$uploaddir$nameOfimage"; 
+		$uploadfile = __DIR__ . "/../../../myproject/" ."$uploaddir$nameOfimage"; //"/var/www/html/myproject/"
 		//в переменную $uploadfile будет входить папка и имя изображения
 		// проверяем загружается ли изображение 
 		// проверяем продходит ли изображение по размеру и формату. Разрешенный размер - до 512 Кб
 		//Допустимые форматы: jpg, jpeg, png
 		if (($_FILES['userfile']['type'] == 'image/gif' || $_FILES['userfile']['type'] == 'image/jpeg' || $_FILES['userfile']['type'] == 'image/png') && ($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size']<=512000)) { 
-		// Указываем максимальный размер загружаемого файла. Сейчас до 512 Кб 
-		  	if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) { //eсли файл действительно загружен на 
-	           //сервер, он будет перемещён в "$uploaddir"; 
-			   //идет процесс загрузки изображения 
+			// Указываем максимальный размер загружаемого файла. Сейчас до 512 Кб 
+		  	if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) { //eсли файл действительно загружен на сервер, он будет перемещён в "$uploaddir"; 
 			   $size = getimagesize($uploadfile); 
 			   // получаем размер пикселей изображения 
 			   if ($size[0] < 501 && $size[1]<1501) { 
@@ -42,12 +35,7 @@ try {
 		}
 		$ourimage = $uploadfile_with_short_path;
 
-		// Работа с базой данных: добавление даты, текстовой информации
 		//Work with database: Adding the text information and the date
-		/*if (!isset($_POST['article_title']) || !isset($_POST['rubric'])  || !isset($_POST['article_short_text']) || !isset($_POST['article_full_text']) || !isset($ourimage)) {
-			//Генерируем исключение - Generate the exception
-	        throw new Exception('Заполните все поля!');
-		} */
 		if (empty($_POST['article_title']) || empty($_POST['rubric'])  || empty($_POST['article_short_text']) || empty($_POST['article_full_text']) || empty($ourimage)) {
 			//Генерируем исключение - Generate the exception
 	        throw new Exception('Заполните все поля!');
@@ -77,8 +65,7 @@ try {
 	}
 }
 catch (Exception $ex) {
-	//Выводим сообщение об исключении - Print the exception message
-	$x = $ex->getMessage();
+	$exAdd = $ex->getMessage();
 }
 
 

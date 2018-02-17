@@ -2,7 +2,7 @@
 session_start();
 //Подключение к БД - Connection with database
 require_once __DIR__ . '/../src/core/classes/Config.php';
-$pathToConfig = '/var/www/html/config/app.php';
+$pathToConfig = __DIR__ . '/../config/app.php';
 $oConfig = new Config($pathToConfig);
 $dbConfig = $oConfig->get('db');
 $basa  = new PDO($dbConfig['dns'], $dbConfig['user'], $dbConfig['password']);

@@ -39,15 +39,15 @@ try {
 			$prep3->execute(); 
 			$result = $prep3->fetch(PDO::FETCH_ASSOC);
 			echo "обновлено Э" . $result;
-			header('Location: http://myproject.local/index.php');				
+			header('Location: /index.php');				
 		}
 		else {
 			throw new Exception('Вы уже проголосовали');	
 		}
 	}
 }
-catch (Exception $ex7) {
+catch (Exception $ex) {
 		//Выводим сообщение об исключении - Print the exception message
-		$exLike = $ex7->getMessage();
+		$exLike = $ex->getMessage();
 }
 

@@ -24,7 +24,7 @@ if (isset($rubric)) {
 //вывод информации из БД на главную страницу - display of information from database on main page
 else if (isset($_GET['page'])) { 
 	// число статей, выводимых на станице - the count of articles, displayed on the page
-	$num = 7; 
+	$num = 5; 
 	// Получаем из URL номер текущей страницу - Get the current page number from the URL
 	$page = $_GET['page']; 
 	// Определяем общее число статей в базе данных - Define the total count of articles in the database

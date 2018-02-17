@@ -5,11 +5,10 @@
 	    <th>id</th>
 	    <th>информация</th>
     </tr>
-	<?php foreach ($users_list as $row1): ?>
-	<tr><td><?php echo $row1['login']; ?></td>
-		<td><?php echo $row1['id']; ?></td>
-		<?php //$x = 1; ?>
-		<td><a href='/index.php?page_name=get_list_of_users_page&userId=<?php echo $row1['id']; ?>'>Посмотреть информацию о пользователе</a><td>
+	<?php foreach ($users_list as $rowUser): ?>
+	<tr><td><?php echo $rowUser['login']; ?></td>
+		<td><?php echo $rowUser['id']; ?></td>
+		<td><a href='/index.php?page_name=get_list_of_users_page&userId=<?php echo $rowUser['id']; ?>'>Посмотреть информацию о пользователе</a><td>
 	</tr>
 	<?php endforeach; ?>
 </table> 

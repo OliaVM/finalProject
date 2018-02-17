@@ -6,6 +6,6 @@
 	bla bla bla  <br>
 	bla bla bla <br>
 	<!-- Выводим кнопку выхода из сессии - Display the exit button from the session -->
-	<?php require_once '/var/www/html/src/core/form/exit_button.php' ?>
+	<?php require_once __DIR__ . '/../../../core/form/exit_button.php' ?>
 <?php endif; ?>	
 

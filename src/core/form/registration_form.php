@@ -7,7 +7,8 @@
 			<input type="submit" name="submit">
 		</form>
 	</div>
-<?php else: echo "Вы уже авторизованы"; ?>
+<?php else: //echo "<script language='javascript'> alert('Вы уже авторизованы!'); </script>"; ?>
+	<h2 class='redcolor'><?php echo "Вы уже авторизованы!"; ?></h2>
 <?php endif; ?>
 <div>
 

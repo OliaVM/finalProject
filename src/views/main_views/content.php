@@ -1,17 +1,18 @@
 	<!-- Доступно неавторизованным пользователям -->
 	<?php echo "<h2>" . "Добавление новости" . "</h2>"; ?>
 	<!-- Форма ввода новостей пользователем -->		
-	<?php require '/var/www/html/src/core/form/add_news_form.php'; ?>
+	<?php require __DIR__ . '/../../core/form/add_news_form.php'; ?>
 	<!-- Исключения при добавлении новости -->
-	<?php	if (isset($x)): ?> 
-		<?php echo "<h2>" . $x . "</h2>"; ?>
+	<?php	if (isset($exAdd)): ?> 
+		<h2 class="redcolor"><?php echo $exAdd; ?></h2>
 	<?php	endif; ?> 
 	<?php	if (isset($x2)): ?>  
-		<?php echo "<h2>" . $x2 . "</h2>"; ?>
+		<h2 class="redcolor"><?php echo $x2; ?></h2>
 	<?php	endif; ?> 
 </div>
 <div>
-	<?php require '/var/www/html/src/views/pages/news.php'; ?> 
-						
+	<?php require __DIR__ . '/../pages/news.php'; ?> 
+	<!-- Постраничная навигация -->
+	<?php	require __DIR__ . '/../pagination/contentPagination.php'; ?>		
 					
 

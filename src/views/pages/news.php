@@ -3,7 +3,7 @@
 	<p><h2><?php echo $row['article_date']; ?></h2></p>
 	<p><h2><?php echo $row['rubric']; ?></h2></p>
 	<p><h2><?php echo $row['article_title']; ?></h2></p>
-	<img src="<?php echo "http://myproject.local/".$row['image']."" ?>"> <br> 
+	<img src="<?php echo "/".$row['image']."" ?>"> <br> 
 	<?php echo $row['article_short_text']; ?><br>
 	<?php if (isset($_SESSION['login']) && isset($_SESSION['password'])): ?>
 		<form method="post">
@@ -19,7 +19,7 @@
 	<br> 
 <?php endforeach; ?>
 <!-- Постраничная навигация -->
-<?php	require '/var/www/html/src/views/pagination/newsPagination.php'; ?>
+<?php	require __DIR__ . '/../pagination/newsPagination.php'; ?>
 
 
 
