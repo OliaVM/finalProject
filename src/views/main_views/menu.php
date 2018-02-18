@@ -8,9 +8,11 @@
 			<!-- Вход под ролью администратора - The input under the administrator role -->
 			<?php if ($_SESSION['role'] == "admin"): ?>
 				<div> 
-					<a href="/index.php?page_name=admin_role_page">Перейти на страницу администратора</a>
+					<li><a href="/index.php?page_name=admin_role_page">Перейти на страницу администратора</a></li>
 					<li><a href="/index.php?page_name=delete_page">Удаление записей пользователей</a></li>
 					<li><a href="/index.php?page_name=editor_page">Редактирование записей пользователей</a></li>
+					<li><a href="/index.php?page_name=get_list_of_users_page">Показать список пользователей</a></li>
+					<li><a href='/index.php?page_name=create_new_user'>Добавить нового пользователя</a></li>
 				</div>
 			<!-- Вход под ролью редактора The input under the editor role-->
 			<?php elseif ($_SESSION['role'] == "editor"): ?>

@@ -1,6 +1,4 @@
-<form method="POST">
-	<button type="submit" name="craete_new_user">Добавить нового пользователя</button>
-</form>
+<a href='/index.php?page_name=create_new_user'>Добавить нового пользователя</a>
 
 <!-- Информация о пользователе -->
 <?php if (isset($_GET['userId'])): ?>

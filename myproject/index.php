@@ -40,6 +40,9 @@ if (isset($_GET['page_name'])) {
 		case 'get_list_of_users_page':
 		$path = "/../pages/protected_page/";
 		break;
+		case 'create_new_user':
+		$path = "/../pages/protected_page/";
+		break;
 	}
 }
 else {
@@ -78,6 +81,8 @@ require_once  __DIR__ . '/../src/models/protected_actions/show_info_about_user.p
 require_once  __DIR__ . '/../src/models/protected_actions/edit_user.php';
 //delete user
 require_once  __DIR__ . '/../src/models/protected_actions/delete_user.php';
+//add new user
+require_once  __DIR__ . '/../src/models/protected_actions/add_user.php';
 
+//views
 require_once __DIR__ . '/../src/views/main_views/template.php'; 
-
