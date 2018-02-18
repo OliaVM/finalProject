@@ -4,7 +4,7 @@
 			Логин: <input type="text" name="login"><br><br>
 			Пароль: <input type="password" name="password"><br><br>
 			email: <input type="email" name="email"><br>
-			<input type="submit" name="submit">
+			<input type="submit" name="submit_regisration">
 		</form>
 	</div>
 <?php else: //echo "<script language='javascript'> alert('Вы уже авторизованы!'); </script>"; ?>

@@ -46,12 +46,12 @@ try {
 		$image = $ourimage;
 		//Добавление информации в базу данных - Adding information in the database
 		$sql="INSERT INTO articles (login_id, rubric, article_title, article_date, image, article_short_text, article_full_text, count_of_likes) VALUES (:login_id, :rubric, :article_title, :article_date, :image, :article_short_text, :article_full_text, :count_of_likes)"; 
-		$prep = $basa->prepare($sql);
+		$prep = $сonnection_db->prepare($sql);
 		/*
 		//ptotect from injections
-		$_POST['article_title'] = $basa->quote($_POST['article_title']); 
-		$_POST['article_short_text'] = $basa->quote($_POST['article_short_text']); 
-		$_POST['article_full_text'] = $basa->quote($_POST['article_full_text']); 
+		$_POST['article_title'] = $сonnection_db->quote($_POST['article_title']); 
+		$_POST['article_short_text'] = $сonnection_db->quote($_POST['article_short_text']); 
+		$_POST['article_full_text'] = $сonnection_db->quote($_POST['article_full_text']); 
 		*/
 		$prep->bindValue(':login_id', $_SESSION['id'], PDO::PARAM_INT);
 		$prep->bindValue(':rubric', $_POST['rubric'], PDO::PARAM_STR);

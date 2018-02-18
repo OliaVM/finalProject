@@ -2,7 +2,7 @@
 // Authorization
 // получаем информацию из БД и сравниваем с введенной пользователем - Get the information from the database and compare with input user data
 try {
-	if (isset($_POST['submit'])) {
+	if (isset($_POST['submit_avtorization'])) {
 		//Если поля логин и пароль заполнены - If the fields username and password filled
 		if (empty($_REQUEST['password']) || empty($_REQUEST['login'])) {
 			throw new Exception('Запоните все поля!');
@@ -10,8 +10,8 @@ try {
 		$login = $_REQUEST['login']; 
 		$password = $_REQUEST['password']; 
 		$sql = 'SELECT * FROM users WHERE login="'.$login.'"';
-		$sth = $basa->query($sql);
-		//$sth = $basa->prepare($sql); 
+		$sth = $сonnection_db->query($sql);
+		//$sth = $сonnection_db->prepare($sql); 
 		//$sth->execute();
 		$rowUser = $sth->fetch(PDO::FETCH_ASSOC); 
 		
@@ -48,7 +48,7 @@ try {
 			setcookie('key', $key, time()+60*60*24*30); 
 			//обновляем таблицу users 
 			$sql = 'UPDATE users SET cookie="'.$key.'" WHERE login="'.$login.'"';
-			$keys = $basa->query($sql);
+			$keys = $сonnection_db->query($sql);
 		}
 		//счетчик сессий - Counter sessions
 		if (!isset($_SESSION['count'])) {

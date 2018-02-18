@@ -14,8 +14,8 @@
 			<form method="post">
 				<input type='hidden' name="del_id" value="<?php echo $row['id']; ?>">
 				<input name="button_del" value="Удалить" type="submit">
-				<input type='hidden' name="red_id" value="<?php echo $row['id']; ?>">
-				<a href='/index.php?page_name=editor_page&red_id=<?php echo $row['id']; ?>'>Изменить информацию </a>
+				<input type='hidden' name="edit_id" value="<?php echo $row['id']; ?>">
+				<a href='/index.php?page_name=editor_page&edit_id=<?php echo $row['id']; ?>'>Изменить информацию </a>
 			</form>
 		<?php endif; ?>
 	<?php endforeach; ?>

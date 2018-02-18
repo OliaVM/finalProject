@@ -7,7 +7,7 @@ if (empty($_SESSION['auth']) or $_SESSION['auth'] == false) {
 		$login = $_COOKIE['login']; 
 		$key = $_COOKIE['key']; //ключ из кук (аналог пароля в базе данных)
 		$sql = 'SELECT * FROM users WHERE login="'.$login.'" AND cookie="'.$key.'"';
-		$sth = $basa->query($sql);
+		$sth = $сonnection_db->query($sql);
 		$rowUser = $sth->fetch(PDO::FETCH_ASSOC); // array with data table 	
 		//Если база данных вернула не пустой ответ - значит пара логин-ключ к кукам подошла
 		//If the database returned not empty response - login and key from cookies no true

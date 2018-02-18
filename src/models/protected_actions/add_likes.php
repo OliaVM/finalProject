@@ -5,7 +5,7 @@ try {
 	}
 	if (isset($_POST['image_go'])) { //если пользователь нажал на кнопку поставить лайк
 		$sql_arrayLike = "SELECT * FROM likes WHERE login_id = :login_id and article_id = :article_id"; //проверяем не голосовал ли уже пользователь за эту новость
-		$prep = $basa->prepare($sql_arrayLike); 
+		$prep = $сonnection_db->prepare($sql_arrayLike); 
 		$prep->bindValue(':login_id', $_SESSION['id'], PDO::PARAM_INT); 
 		$prep->bindValue(':article_id', $_POST['id'], PDO::PARAM_INT); 
 		$prep->execute();
@@ -17,7 +17,7 @@ try {
 			//add in TABLE LIKES
 			$likes = 1;
 			$sql1 = "INSERT INTO likes (login_id, article_id, count_of_likes) VALUES (:login_id, :article_id, :count_of_likes)";
-			$prep1 = $basa->prepare($sql1); 
+			$prep1 = $сonnection_db->prepare($sql1); 
 			$prep1->bindValue(':login_id', $_SESSION['id'], PDO::PARAM_INT); 
 			$prep1->bindValue(':article_id', $_POST['id'], PDO::PARAM_INT); 
 			$prep1->bindValue(':count_of_likes', $likes, PDO::PARAM_INT); 
@@ -25,7 +25,7 @@ try {
 
 			//add in TABLE ARTICLES
 			$sql2 = "SELECT COUNT(*) FROM likes WHERE count_of_likes = :count_of_likes and article_id = :article_id";
-			$prep2 = $basa->prepare($sql2); 
+			$prep2 = $сonnection_db->prepare($sql2); 
 			$prep2->bindValue(':count_of_likes', 1, PDO::PARAM_INT); 
 			$prep2->bindValue(':article_id', $_POST['id'], PDO::PARAM_INT); 
 			$prep2->execute();
@@ -33,12 +33,12 @@ try {
 			$count_of_likes = $row['COUNT(*)'];
 			
 			$sql3 = "UPDATE articles SET count_of_likes = :count_of_likes WHERE id = :id";
-			$prep3 = $basa->prepare($sql3);
+			$prep3 = $сonnection_db->prepare($sql3);
 			$prep3->bindValue(':count_of_likes', $count_of_likes, PDO::PARAM_INT);
 			$prep3->bindValue(':id', $_POST['id'], PDO::PARAM_INT); 
 			$prep3->execute(); 
 			$result = $prep3->fetch(PDO::FETCH_ASSOC);
-			echo "обновлено Э" . $result;
+			//echo "Запись обновлена";
 			header('Location: /index.php');				
 		}
 		else {

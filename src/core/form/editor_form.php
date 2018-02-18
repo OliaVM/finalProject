@@ -1,6 +1,6 @@
 <!-- Редактирование записи -->
 <?php if ($_SESSION['role'] == "admin"): ?>
-	<?php if (isset($_GET['red_id'])): ?>
+	<?php if (isset($_GET['edit_id'])): ?>
 		<?php foreach ($article_row as $row): ?>
 		    <form method="POST">
 				<br> 

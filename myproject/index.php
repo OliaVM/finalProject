@@ -5,8 +5,8 @@ require_once __DIR__ . '/../src/core/classes/Config.php';
 $pathToConfig = __DIR__ . '/../config/app.php';
 $oConfig = new Config($pathToConfig);
 $dbConfig = $oConfig->get('db');
-$basa  = new PDO($dbConfig['dns'], $dbConfig['user'], $dbConfig['password']);
-$basa->exec("set names utf8");
+$сonnection_db  = new PDO($dbConfig['dns'], $dbConfig['user'], $dbConfig['password']);
+$сonnection_db->exec("set names utf8");
 
 //router
 if (isset($_GET['rubric'])) {
