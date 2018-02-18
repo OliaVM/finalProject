@@ -14,7 +14,12 @@
 		<td><?php echo $rowUser['login']; ?></td>
 		<td><a href='/index.php?page_name=get_list_of_users_page&userId=<?php echo $rowUser['id']; ?>'>Посмотреть подробнее</a></td>
 		<td><a href='/index.php?page_name=get_list_of_users_page&edit_userId=<?php echo $rowUser['id']; ?>'>Отредактировать</a></td>
-		<td><a href='/index.php?page_name=get_list_of_users_page&delete_userId=<?php echo $rowUser['id']; ?>'>Удалить</a></td>
+		<td><form method="post">
+			<input type='hidden' name="delete_userId" value="<?php echo $rowUser['id']; ?>">
+			<input name="button_del_user" value="Удалить" type="submit">
+		</form></td>
 	</tr>
 	<?php endforeach; ?>
 </table> 
+
+
