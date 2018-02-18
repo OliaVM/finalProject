@@ -14,12 +14,14 @@ try {
 				
 		// Выполняем проверку на незанятость логина. Ответ базы данных запишем в переменную $row
 		// Performs the validation to freedom login. The response from the database record into a variable $row
-		$sql = 'SELECT * FROM users  WHERE login="'.$login.'"';
-		$isLoginFree = $сonnection_db->query($sql);
-		$row = $isLoginFree->fetch(PDO::FETCH_ASSOC);
-	
+		$sql = 'SELECT * FROM users WHERE login=:login';
+		$prep = $сonnection_db->prepare($sql);
+		$prep->bindValue(':login', $login, PDO::PARAM_STR);
+		$prep->execute(); 
+		$row = $prep->fetch(PDO::FETCH_ASSOC);
+
 		//Если $row НЕ пустой - то логин занят! - - If $row is not empty - the login is not free
-		if (isset($row['login'])) {
+		if ($login == $row['login']) {
 			throw new Exception('Этот логин уже занят!');
      	}
      	//Если $row пустой - то логин не занят! - If $row is empty - the login is free
@@ -29,9 +31,13 @@ try {
 		$saltedPassword = md5($password.$salt); 
 
 		// Добавляем в базу данных информацию из формы - Added information to the database from the form
-		$sql2 = 'INSERT INTO users SET login="'.$login.'", role ="user", password="'.$saltedPassword.'", salt="'.$salt.'", email="'.$email.'"';
-		$prep = $сonnection_db->prepare($sql2);
-		$basa->query($sql2);
+		$sql2 = 'INSERT INTO users SET login = :login, role = "user", password= :saltedPassword, salt= :salt, email = :email';
+		$prep2 = $сonnection_db->prepare($sql2);
+		$prep2->bindValue(':login', $login, PDO::PARAM_STR);
+		$prep2->bindValue(':saltedPassword', $saltedPassword, PDO::PARAM_STR);
+		$prep2->bindValue(':salt', $salt, PDO::PARAM_STR);
+		$prep2->bindValue(':email', $email, PDO::PARAM_STR);
+		$prep2->execute(); 
 		//The message about the successful registration
 		echo 'Вы успешно зарегистрированы!';
 	}
@@ -39,8 +45,4 @@ try {
 catch (Exception $ex_registration) {
 	$exRegistration = $ex_registration->getMessage();
 }
-
-
-
-
 

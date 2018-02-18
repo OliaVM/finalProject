@@ -6,6 +6,17 @@
 	<img src="<?php echo "/".$row['image']."" ?>"> <br> 
 	<?php echo $row['article_short_text']; ?><br>
 	<?php if (isset($_SESSION['login']) && isset($_SESSION['password'])): ?>
+		<!-- Удаление, редактирование записи - Delete and edit of record -->
+		<?php if ($_SESSION['role'] == "admin"): ?>
+			<form method="post">
+				<input type='hidden' name="del_id" value="<?php echo $row['id']; ?>">
+				<input name="button_del" value="Удалить" type="submit">
+				<input type='hidden' name="edit_id" value="<?php echo $row['id']; ?>">
+				<a href='/index.php?page_name=editor_page&edit_id=<?php echo $row['id']; ?>'>Изменить информацию </a>
+			</form>
+		<?php	endif; ?>
+
+		<!-- Likes -->
 		<form method="post">
 			<input type='hidden' name="id" value="<?php echo $row['id']; ?>">
 			<input type='hidden' name="like" value="<?php echo $row['count_of_likes']; ?>">

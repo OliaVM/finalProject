@@ -69,6 +69,15 @@ require_once __DIR__ . '/../src/models/protected_actions/delete_article.php';
 //add article	
 require_once __DIR__ . '/../src/models/protected_actions/edit_article.php';
 
+//admin actions
+//show table users 
+require_once  __DIR__ . '/../src/models/protected_actions/show_list_of_users.php';
+//show information about selected user
+require_once  __DIR__ . '/../src/models/protected_actions/show_info_about_user.php';
+//edit user
+require_once  __DIR__ . '/../src/models/protected_actions/edit_user.php';
+//delete user
+//require_once  __DIR__ . '/../src/models/protected_actions/delete_user.php';
 
 require_once __DIR__ . '/../src/views/main_views/template.php'; 
 
